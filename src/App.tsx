@@ -1,3 +1,7 @@
-import "./App.css";
+import { HomePage } from "./pages/home/HomePage.component";
 
-export const App = () => <div>oi</div>;
+export const App = () => (
+  <div>
+    <HomePage></HomePage>
+  </div>
+);
