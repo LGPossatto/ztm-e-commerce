@@ -1,14 +1,26 @@
+import { useHistory, useRouteMatch } from "react-router-dom";
+
 import "./menu-item.style.scss";
 
 interface props {
   title: string;
   imageUrl: string;
   size: string;
+  linkUrl: string;
 }
 
-export const MenuItem = ({ title, imageUrl, size }: props) => {
+export const MenuItem = ({ title, imageUrl, size, linkUrl }: props) => {
+  const { push } = useHistory();
+  const { path } = useRouteMatch();
+
   return (
-    <div data-testid="menu-item" className={`menu-item ${size}`}>
+    <div
+      data-testid="menu-item"
+      className={`menu-item ${size}`}
+      onClick={() => {
+        push(`${path}${linkUrl}`);
+      }}
+    >
       <div
         data-testid="background-image"
         className="background-image"
