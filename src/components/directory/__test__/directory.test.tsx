@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router";
 
 //import {data} from '../../../utils/data'
 
@@ -6,7 +7,7 @@ import { Directory } from "../Directory.component";
 
 describe("Directory", () => {
   beforeAll(() => {
-    render(<Directory />);
+    render(<Directory />, { wrapper: MemoryRouter });
   });
 
   test("should display all MenuItems", () => {

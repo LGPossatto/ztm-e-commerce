@@ -1,9 +1,11 @@
 import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router";
+
 import { HomePage } from "../HomePage.component";
 
 describe("HomePage", () => {
   beforeAll(() => {
-    render(<HomePage />);
+    render(<HomePage />, { wrapper: MemoryRouter });
   });
 
   test("should contain Directory", () => {
