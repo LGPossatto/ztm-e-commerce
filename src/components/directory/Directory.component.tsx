@@ -1,4 +1,4 @@
-import { data } from "../../utils/data";
+import { sectionsData } from "../../assets/data/sections.data";
 import { MenuItem } from "../menu-item/MenuItem.component";
 
 import "./directory.style.scss";
@@ -6,7 +6,7 @@ import "./directory.style.scss";
 export const Directory = () => {
   return (
     <div data-testid="directory" className="directory">
-      {data.map(({ id, ...props }) => (
+      {sectionsData.map(({ id, ...props }) => (
         <MenuItem key={id} {...props}></MenuItem>
       ))}
     </div>

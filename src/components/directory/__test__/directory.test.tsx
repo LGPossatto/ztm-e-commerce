@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 
-//import {data} from '../../../utils/data'
+//import { menuData } from '../../../assets/data/menu.data'
 
 import { Directory } from "../Directory.component";
 

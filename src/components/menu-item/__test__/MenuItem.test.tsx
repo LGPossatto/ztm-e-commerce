@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { MemoryRouter } from "react-router";
+import { BrowserRouter } from "react-router-dom";
 
-import { data } from "../../../utils/data";
+import { menuData } from "../../../assets/data/menu.data";
 
 import { MenuItem } from "../MenuItem.component";
 
@@ -14,82 +14,49 @@ jest.mock("react-router-dom", () => ({
   useRouteMatch: () => ({ path: "/useRouteMatch/" }),
 }));
 
+const mockMenuItem = (size = "normal", linkUrl = "mockLink") => (
+  <BrowserRouter>
+    <MenuItem
+      title={"mockTitle"}
+      imageUrl={"mockImage"}
+      size={size}
+      linkUrl={linkUrl}
+    />
+  </BrowserRouter>
+);
+
 describe("MenuItem", () => {
   test("should display proper text", () => {
-    render(
-      <MenuItem
-        title={data[0].title}
-        imageUrl={data[0].imageUrl}
-        size={data[0].size}
-        linkUrl={data[0].linkUrl}
-      />,
-      { wrapper: MemoryRouter }
-    );
+    render(mockMenuItem());
 
-    screen.getByText(data[0].title.toUpperCase());
+    screen.getByText("MOCKTITLE");
   });
 
   test("should have normal size", () => {
-    const { container } = render(
-      <MenuItem
-        title={data[0].title}
-        imageUrl={data[0].imageUrl}
-        size={"normal"}
-        linkUrl={data[0].linkUrl}
-      />,
-      { wrapper: MemoryRouter }
-    );
+    const { container } = render(mockMenuItem());
 
     //@ts-ignore
     expect(container.firstChild.classList.contains("normal")).toBe(true);
   });
 
   test("should have large size", () => {
-    const { container } = render(
-      <MenuItem
-        title={data[0].title}
-        imageUrl={data[0].imageUrl}
-        size={"large"}
-        linkUrl={data[0].linkUrl}
-      />,
-      { wrapper: MemoryRouter }
-    );
+    const { container } = render(mockMenuItem("large"));
 
     //@ts-ignore
     expect(container.firstChild.classList.contains("large")).toBe(true);
   });
 
   test("should display background image", () => {
-    const background = render(
-      <MenuItem
-        title={data[0].title}
-        imageUrl={data[0].imageUrl}
-        size={data[0].size}
-        linkUrl={data[0].linkUrl}
-      />,
-      { wrapper: MemoryRouter }
-    ).getByTestId("background-image");
+    const background = render(mockMenuItem()).getByTestId("background-image");
 
-    expect(background).toHaveStyle(
-      `background-image: url(${data[0].imageUrl})`
-    );
+    expect(background).toHaveStyle("background-image: url(mockImage)");
   });
 
   test("should navigate to correct page", () => {
-    const { container } = render(
-      <MenuItem
-        title={data[0].title}
-        imageUrl={data[0].imageUrl}
-        size={data[0].size}
-        linkUrl={data[0].linkUrl}
-      />,
-      { wrapper: MemoryRouter }
-    );
+    const { container } = render(mockMenuItem());
 
     //@ts-ignore
     fireEvent.click(container.firstChild);
-    expect(mockHistoryPush).toHaveBeenCalledWith(
-      `/useRouteMatch/${data[0].linkUrl}`
-    );
+    expect(mockHistoryPush).toHaveBeenCalledWith("/useRouteMatch/mockLink");
   });
 });
