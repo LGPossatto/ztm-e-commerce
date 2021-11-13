@@ -1,4 +1,4 @@
-import "./collection-item.style.scss";
+import "./CollectionItem.style.scss";
 
 export interface ICollectionItem {
   name: string;

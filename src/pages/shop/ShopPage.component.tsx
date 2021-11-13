@@ -1,6 +1,6 @@
 import { shopData } from "../../assets/data/shop.data";
 
-import "./shop-page.style.scss";
+import "./ShopPage.style.scss";
 import { CollectionPreview } from "../../components/collection-preview/CollectionPreview.component";
 
 export const ShopPage = () => {

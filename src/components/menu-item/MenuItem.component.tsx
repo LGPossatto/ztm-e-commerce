@@ -1,6 +1,6 @@
 import { useHistory, useRouteMatch } from "react-router-dom";
 
-import "./menu-item.style.scss";
+import "./MenuItem.style.scss";
 
 interface props {
   title: string;

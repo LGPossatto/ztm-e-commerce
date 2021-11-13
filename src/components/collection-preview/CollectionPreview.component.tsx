@@ -1,8 +1,8 @@
+import "./CollectionPreview.style.scss";
 import {
   CollectionItem,
   ICollectionItem,
 } from "../collection-item/CollectionItem.component";
-import "./collection-item.style.scss";
 
 interface INewCI extends ICollectionItem {
   id: number;

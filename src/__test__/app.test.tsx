@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 
 import { App } from "../App";
@@ -14,8 +14,11 @@ const renderApp = (path: string = "/") => {
 };
 
 describe("App", () => {
-  afterEach(() => {
-    cleanup();
+  test("should render Header", () => {
+    renderApp();
+
+    const header = screen.getByTestId("header");
+    expect(header).toBeInTheDocument();
   });
 
   test("should render HomePage", () => {

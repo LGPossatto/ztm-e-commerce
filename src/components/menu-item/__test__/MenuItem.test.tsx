@@ -1,8 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 
-import { menuData } from "../../../assets/data/menu.data";
-
 import { MenuItem } from "../MenuItem.component";
 
 const mockHistoryPush = jest.fn();

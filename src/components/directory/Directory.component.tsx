@@ -1,7 +1,7 @@
 import { sectionsData } from "../../assets/data/sections.data";
 import { MenuItem } from "../menu-item/MenuItem.component";
 
-import "./directory.style.scss";
+import "./Directory.style.scss";
 
 export const Directory = () => {
   return (
