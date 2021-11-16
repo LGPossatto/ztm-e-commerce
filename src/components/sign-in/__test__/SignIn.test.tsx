@@ -1,6 +1,12 @@
 import { render, fireEvent } from "@testing-library/react";
 import { SignIn } from "../SignIn.component";
 
+jest.mock("firebase/firestore", () => {
+  return {
+    getFirestore: jest.fn(),
+  };
+});
+
 const renderSignIn = () => render(<SignIn />);
 
 describe("SignIn", () => {
@@ -38,8 +44,9 @@ describe("SignIn", () => {
     expect(inputEl.value).toBe("changed value");
   });
 
-  test("should display submit button", () => {
-    const buttonEl = renderSignIn().getByTestId("custom-button");
-    expect(buttonEl).toBeInTheDocument();
+  test("should display submit and sign in with google buttons", () => {
+    const buttonEl = renderSignIn().getAllByTestId("custom-button");
+    expect(buttonEl[0].textContent).toBe("Sign in");
+    expect(buttonEl[1].textContent).toBe("Login With Google");
   });
 });
