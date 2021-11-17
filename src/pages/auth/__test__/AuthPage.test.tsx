@@ -1,4 +1,7 @@
 import { render } from "@testing-library/react";
+
+import { renderWithRedux } from "../../../assets/helpers/test.helper";
+
 import { AuthPage } from "../AuthPage.component";
 
 jest.mock("firebase/firestore", () => {
@@ -7,7 +10,7 @@ jest.mock("firebase/firestore", () => {
   };
 });
 
-const renderAuthPage = () => render(<AuthPage />);
+const renderAuthPage = () => renderWithRedux(<AuthPage />);
 
 describe("AuthPage", () => {
   test("should render withou crashing", () => {

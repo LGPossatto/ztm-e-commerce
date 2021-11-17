@@ -1,20 +1,25 @@
-import { render, fireEvent } from "@testing-library/react";
+import { fireEvent } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
-import { IUserAuth } from "../../../firebase/firebase.utils";
+import { renderWithRedux } from "../../../assets/helpers/test.helper";
+// import { IUserAuth } from "../../../firebase/firebase.utils";
 
 import { Header } from "../Header.component";
 
 const mockOnLogout = jest.fn();
-const user: IUserAuth = {
-  uid: "mockId",
-  displayName: "mockName",
-  email: "mockEmail",
-};
+// const user: IUserAuth = {
+//   uid: "mockId",
+//   displayName: "mockName",
+//   email: "mockEmail",
+// };
 
-const renderHeader = (user: IUserAuth | null = null) =>
-  render(<Header user={user} onLogout={mockOnLogout} />, {
-    wrapper: BrowserRouter,
-  });
+const renderHeader = (currentUser: boolean = false) => {
+  return renderWithRedux(
+    <BrowserRouter>
+      <Header onLogout={mockOnLogout} />
+    </BrowserRouter>,
+    currentUser
+  );
+};
 
 describe("Header", () => {
   test("should render Header without crashing", () => {
@@ -42,7 +47,7 @@ describe("Header", () => {
   });
 
   test("should display sign out button if logged", () => {
-    const signOutEl = renderHeader(user).getByText("SIGN OUT");
+    const signOutEl = renderHeader(true).getByText("SIGN OUT");
     expect(signOutEl).toBeInTheDocument();
   });
 
@@ -75,7 +80,7 @@ describe("Header", () => {
   });
 
   test("should run onLogout function if clicked on sign out button", () => {
-    const signOutEl = renderHeader(user).getByText("SIGN OUT");
+    const signOutEl = renderHeader(true).getByText("SIGN OUT");
     fireEvent.click(signOutEl);
 
     expect(mockOnLogout).toHaveBeenCalled();

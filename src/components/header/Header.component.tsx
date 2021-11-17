@@ -1,16 +1,18 @@
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import { IUserAuth } from "../../firebase/firebase.utils";
+import { IRootState } from "../../redux/rootReducer";
 
 import "./Header.style.scss";
 import { ReactComponent as Logo } from "../../assets/icons/crown.svg";
 
 interface props {
-  user: IUserAuth | null;
   onLogout: Function;
 }
 
-export const Header = ({ user, onLogout }: props) => {
+export const Header = ({ onLogout }: props) => {
+  const user = useSelector((state: IRootState) => state.user.currentUser);
+
   return (
     <div data-testid="header" className="header">
       <Link className="logo-container" to="/">

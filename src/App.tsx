@@ -1,5 +1,9 @@
-import { useEffect, useState } from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { setCurrentUser } from "./redux/user/user.actions";
+import { IRootState } from "./redux/rootReducer";
 
 import { onAuthStateChanged } from "@firebase/auth";
 import {
@@ -15,28 +19,31 @@ import { AuthPage } from "./pages/auth/AuthPage.component";
 import { ShopPage } from "./pages/shop/ShopPage.component";
 
 export const App = () => {
-  const [currentUser, setCurrentUser] = useState<IUserAuth | null>(null);
+  const currentUser = useSelector(
+    (state: IRootState) => state.user.currentUser
+  );
+  const dispatch = useDispatch();
 
   const onLogout = () => {
     auth.signOut();
-    setCurrentUser(null);
+    //setCurrentUserS(null);
   };
 
   useEffect(() => {
     onAuthStateChanged(auth, async (userAuth) => {
       if (userAuth) {
-        console.log(userAuth);
+        // console.log(userAuth);
 
-        const userRef = await createUserProfileDocument(userAuth as IUserAuth);
+        await createUserProfileDocument(userAuth as IUserAuth);
 
         try {
-          if (userRef) {
+          dispatch(
             setCurrentUser({
               uid: userAuth.uid,
               displayName: userAuth.displayName!,
               email: userAuth.email!,
-            });
-          }
+            })
+          );
         } catch (err) {
           console.error(err);
         }
@@ -46,17 +53,23 @@ export const App = () => {
     // eslint-disable-next-line
   }, []);
 
-  useEffect(() => {
+  /* useEffect(() => {
     console.log(currentUser);
-  }, [currentUser]);
+  }, [currentUser]); */
 
   return (
     <BrowserRouter>
-      <Header user={currentUser} onLogout={onLogout}></Header>
+      <Header onLogout={onLogout}></Header>
       <Switch>
         <Route exact path="/" component={HomePage}></Route>
-        <Route exact path="/auth" component={AuthPage}></Route>
         <Route exact path="/shop" component={ShopPage}></Route>
+        <Route
+          exact
+          path="/auth"
+          render={() =>
+            currentUser ? <Redirect to="/"></Redirect> : <AuthPage></AuthPage>
+          }
+        ></Route>
       </Switch>
     </BrowserRouter>
   );

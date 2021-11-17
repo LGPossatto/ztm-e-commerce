@@ -1,7 +1,8 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 
 import { App } from "../App";
+import { renderWithRedux } from "../assets/helpers/test.helper";
 
 jest.mock("firebase/firestore", () => {
   return {
@@ -9,13 +10,14 @@ jest.mock("firebase/firestore", () => {
   };
 });
 
-const renderApp = (path: string = "/") => {
+const renderApp = (path: string = "/", currentUser: boolean = false) => {
   window.history.pushState({}, "test", path);
 
-  return render(
+  return renderWithRedux(
     <BrowserRouter>
       <App />
-    </BrowserRouter>
+    </BrowserRouter>,
+    currentUser
   );
 };
 
@@ -38,6 +40,13 @@ describe("App", () => {
     renderApp("/auth");
 
     const authPage = screen.getByTestId("auth-page");
+    expect(authPage).toBeInTheDocument();
+  });
+
+  test("should redirect to home if trying to access auth page while logged in", async () => {
+    renderApp("/auth", true);
+
+    const authPage = await screen.findByTestId("home-page");
     expect(authPage).toBeInTheDocument();
   });
 
