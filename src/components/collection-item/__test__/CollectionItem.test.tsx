@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 
 import { shopData } from "../../../assets/data/shop.data";
 
@@ -32,5 +32,10 @@ describe("CollectionItem", () => {
     const productPrice = renderCollectionItem().getByText(price);
 
     expect(productPrice).toBeInTheDocument();
+  });
+
+  test("should render add to cart button", () => {
+    const button = renderCollectionItem().getByText("Add to cart");
+    expect(button).toBeInTheDocument();
   });
 });

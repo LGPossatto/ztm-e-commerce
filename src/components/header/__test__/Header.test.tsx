@@ -12,12 +12,13 @@ const mockOnLogout = jest.fn();
 //   email: "mockEmail",
 // };
 
-const renderHeader = (currentUser: boolean = false) => {
+const renderHeader = (currentUser = false, cartHidden = false) => {
   return renderWithRedux(
     <BrowserRouter>
       <Header onLogout={mockOnLogout} />
     </BrowserRouter>,
-    currentUser
+    currentUser,
+    cartHidden
   );
 };
 
@@ -49,6 +50,21 @@ describe("Header", () => {
   test("should display sign out button if logged", () => {
     const signOutEl = renderHeader(true).getByText("SIGN OUT");
     expect(signOutEl).toBeInTheDocument();
+  });
+
+  test("should display cartIcon", () => {
+    const cartIcon = renderHeader().getByTestId("cart-icon");
+    expect(cartIcon).toBeInTheDocument();
+  });
+
+  test("should not render cartdropdown if hidden", () => {
+    const cartDrop = renderHeader(false, true).queryByTestId("cart-dropdown");
+    expect(cartDrop).not.toBeInTheDocument();
+  });
+
+  test("should render cartdropdown if not hidden", () => {
+    const cartDrop = renderHeader().getByTestId("cart-dropdown");
+    expect(cartDrop).toBeInTheDocument();
   });
 
   test("should navigate to / when clicking logo", () => {

@@ -5,6 +5,8 @@ import { IRootState } from "../../redux/rootReducer";
 
 import "./Header.style.scss";
 import { ReactComponent as Logo } from "../../assets/icons/crown.svg";
+import { CartIcon } from "../cart-icon/CartIcon.component";
+import { CartDropdown } from "../cart-dropdown/CartDropdown.component";
 
 interface props {
   onLogout: Function;
@@ -12,6 +14,7 @@ interface props {
 
 export const Header = ({ onLogout }: props) => {
   const user = useSelector((state: IRootState) => state.user.currentUser);
+  const hidden = useSelector((state: IRootState) => state.cart.hidden);
 
   return (
     <div data-testid="header" className="header">
@@ -34,7 +37,9 @@ export const Header = ({ onLogout }: props) => {
             SIGN IN
           </Link>
         )}
+        <CartIcon></CartIcon>
       </div>
+      {hidden ? null : <CartDropdown></CartDropdown>}
     </div>
   );
 };

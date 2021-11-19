@@ -1,4 +1,5 @@
 import "./CollectionItem.style.scss";
+import { CustomButton } from "../custom-button/CustomButton.component";
 
 export interface ICollectionItem {
   name: string;
@@ -20,6 +21,7 @@ export const CollectionItem = ({ name, price, imageUrl }: ICollectionItem) => {
         <span className="name">{name}</span>
         <span className="price">{price}</span>
       </div>
+      <CustomButton invertedColor>Add to cart</CustomButton>
     </div>
   );
 };
